@@ -4,7 +4,7 @@ use std::env;
 #[tokio::main]
 async fn main() {
     pretty_env_logger::init();
-    log::info!("Starting ngrok ping-pong bot...");
+    log::info!("Starting daytobase bot...");
 
     let bot = Bot::from_env();
 
@@ -12,9 +12,8 @@ async fn main() {
     const PORT: u16 = env::var("PORT").unwrap().parse().unwrap();
     const WEBHOOK_URL: &str = env::var("WEBHOOK_URL").unwrap();
 
-    let addr = ([127, 0, 0, 1], 8443).into();
-    let url = "https://139.59.198.186".parse().unwrap();
-    let listener = webhooks::axum(bot.clone(), webhooks::Options::new(addr, url))
+    let addr = ([127, 0, 0, 1], PORT).into();
+    let listener = webhooks::axum(bot.clone(), webhooks::Options::new(addr, WEBHOOK_URL))
         .await
         .expect("Couldn't setup webhook");
 
